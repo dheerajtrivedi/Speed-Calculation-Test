@@ -41,6 +41,9 @@ header > h1 {
 .checked {
     background-color: #BD452B;
 }
+.checked:active {
+    background-color: #ED553B;
+}
 .check-box input {
     font-size: 20px;
     width: 50px;
