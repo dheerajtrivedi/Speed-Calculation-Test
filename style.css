@@ -92,6 +92,7 @@ header > h1 {
 #result-summary {
     text-align: center;
     font-size: 20px;
+    padding: 20px;
 }
 #total-correct {
     color: #67ee67;
@@ -99,7 +100,7 @@ header > h1 {
 #total-incorrect {
     color:#fd3b3b;
 }
-#total-questions {
+#total-questions, #time-per-question, #accuracy {
     color:yellow;
 }
 .display-box > p {

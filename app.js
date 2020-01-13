@@ -34,6 +34,7 @@ function showElement(elem) {
     elem.classList.remove("hide");
 }
 function updateResultDiv() {
+    resultList.innerHTML = '';
     for(let q = 1; q <= totalQuestions; q++){
         if(questionResult[q] == 1)
             resultList.innerHTML += `<li class = 'correct-answer'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = ${userAnswers[q]} </li>`;
@@ -46,6 +47,8 @@ function updateResultDiv() {
     document.getElementById('total-correct').innerHTML = correctAnswers;
     document.getElementById('total-incorrect').innerHTML = wrongAnswers;
     document.getElementById('time-taken').innerHTML = (Math.floor(timeSinceStart/100))/10 + "s";
+    document.getElementById('time-per-question').innerHTML = Math.floor(timeSinceStart/(10*(totalQuestions-notAttempted)))/100 + "s";
+    document.getElementById('accuracy').innerHTML = (correctAnswers/totalQuestions * 100) + "%";
 
 }
 function endQuiz(){
@@ -102,9 +105,13 @@ function startTimer(){
 function startQuiz() {
     console.log("Quiz has started!");
     questionNumber = 0;
+    correctAnswers = 0;
+    wrongAnswers = 0;
+    notAttempted = 0;
     startTimer();
     nextQuestion();
     hideElement(indtroductionDiv);
+    hideElement(resultDiv);
     showElement(quizBoxDiv);
     showElement(timerDiv);
     answerInput.focus();   
@@ -140,5 +147,8 @@ function main() {
             nextQuestion();
         }
     });
+    restartButton.addEventListener('click', function() {
+        startQuiz();
+    })
 }
 main();
