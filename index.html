@@ -37,13 +37,17 @@
             <p>Initially it was designed to help me to improve my calculation speed for CAT examination. Stay tuned for more updates!</p>
             <p>All the best!</p>
             <div id = "customization-bar">
-                <div class = "check-box checked" id = "question-checkbox">Number of Questions: <input type="text" id="question-number-input" value = 15></div><br><br>
-                <div class = "check-box checked" id = "addition-checkbox">Addition <input type="text" id = "addition-lowerlimit" value = 2> to <input type="text" id = "addition-upperlimit" value = 10></div>
-                <div class = "check-box" id = "subtraction-checkbox">Subraction <input type="text" id = "subtraction-lowerlimit"> to <input type="text" id = "subtraction-upperlimit"></div>
-                <div class = "check-box checked" id = "multiplication-checkbox">Multiplication <input type="text" id = "multiplication-lowerlimit" value = 2> to <input type="text" id = "multiplication-upperlimit" value = 10></div>
-                <div class = "check-box" id = "squares-checkbox">Square <input type="text" id = "squares-lowerlimit"> to <input type="text" id = "squares-upperlimit"></div>
+                <div class = "check-box checked" id = "question-checkbox">Number of Questions: <input type="text" id="question-number-input" value = 15 ></div><br><br>
+                <div class = "check-box checked" id = "addition-checkbox">Addition <input type="text" id = "addition-lowerlimit" onclick="event.stopPropagation()" value = 2> to <input type="text" id = "addition-upperlimit" onclick="event.stopPropagation()" value = 10></div>
+                <div class = "check-box" id = "subtraction-checkbox">Subraction <input type="text" id = "subtraction-lowerlimit"onclick="event.stopPropagation()"> to <input type="text" id = "subtraction-upperlimit" onclick="event.stopPropagation()"></div>
+                <div class = "check-box checked" id = "multiplication-checkbox">Multiplication <input type="text" id = "multiplication-lowerlimit" onclick="event.stopPropagation()" value = 2> to <input type="text" id = "multiplication-upperlimit" onclick="event.stopPropagation()" value = 10></div>
+                <div class = "check-box" id = "squares-checkbox">Square <input type="text" id = "squares-lowerlimit" onclick="event.stopPropagation()"> to <input type="text" id = "squares-upperlimit" onclick="event.stopPropagation()"></div>
             </div>
             <div class = "buttons" id = "start-button">START</div>
+        </div>
+        <div id = "error-message-box" class = "hide">
+            <h2>ERROR!</h2>
+            <p id = "error-message"></p>
         </div>
     </div>
     <script src="app.js"></script>

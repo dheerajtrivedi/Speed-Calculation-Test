@@ -129,7 +129,6 @@ function nextQuestion() {
         operator = '^';
         secondNumber = 2;
         questionAnswers[questionNumber] = firstNumber * firstNumber;
-
     }
     firstNumberList[questionNumber] = firstNumber;
     secondNumberList[questionNumber] = secondNumber;
@@ -213,9 +212,20 @@ function checkAnswer() {
 function toggleCheckBox(div) {
     div.classList.toggle("checked")
 }
+function checkConstraints() {
+    if(additionCheckBox.classList.contains('checked') || subtractionCheckBox.classList.contains('checked')
+        || multiplicationCheckBox.classList.contains('checked') || squaresCheckBox.classList.contains('checked')) {
+            return true;
+        }
+    else {
+        document.getElementById('error-message').innerHTML = 'Please select at least one option.';
+        showElement(document.getElementById('error-message-box'));
+        setTimeout(() => hideElement(document.getElementById('error-message-box')), 1000*5)
+    }
+}
 function main() {
     startButton.addEventListener('click', function() {
-        startQuiz();
+        if(checkConstraints()) startQuiz();
     })
     answerInput.addEventListener('keydown', function(event) {
         if(event.key === "Enter") {
