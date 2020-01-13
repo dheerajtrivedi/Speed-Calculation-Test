@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:600&display=swap');
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+body {
+    background-color: #92C46D;
+    color: #1D344E;
+}
+#main-body {
+    position: relative;
+}
+header {
+    padding: 20px;
+    text-align: center;
+}
+header > h1 {
+    font-size: 46px;
+}
+
+#timer {
+    position: absolute;
+    left: -50px;
+    top: -50px;
+    font-size: 60px;
+    color: white;
+    background-color: #7FB1B2;
+    border-radius: 50%;
+    width: 175px;
+    height: 175px;
+    text-align: center;
+    vertical-align: top;
+    padding-top: 50px;
+}
+.display-box {
+    background-color: #1D344E;
+    width: 900px;
+    margin: 50px auto;
+    border-radius: 10px;
+    padding: 50px;
+    font-size: 20px;
+    color: #F0F0F0;
+    vertical-align: top;
+    text-align: justify;
+}
+#quiz-box {
+    position: relative;
+    font-size: 80px;
+    text-align: center;
+    height: 500px;
+    text-align: center;
+}
+#result ol {
+    font-size:40px;
+    width: 300px;
+    margin: 10px auto;
+    text-align: center;
+}
+.correct-answer {
+    color: #67ee67;
+}
+.unanswered {
+    color: yellow;
+}
+.incorrect-answer {
+    color: #fd3b3b;
+}
+#question-number {
+    margin:30px auto;
+    text-align:  center;
+    width: 75px;
+    height: 75px;
+    font-size: 56px;
+    vertical-align: top;
+    border-radius: 50%;
+    background-color: #F8BC20;
+}
+#answer-input {
+    font-size: 80px;
+    width: 150px;
+    background-color: #1D344E;
+    color: transparent;
+    text-shadow: 0 0 0 #F0F0F0;
+    text-align: center;
+    outline: none;
+    border: 0px;
+    border-bottom: 3px solid #F0F0F0;
+}
+#result-summary {
+    text-align: center;
+    font-size: 20px;
+}
+#total-correct {
+    color: #67ee67;
+}
+#total-incorrect {
+    color:#fd3b3b;
+}
+#total-questions {
+    color:yellow;
+}
+.display-box > p {
+    padding: 10px;
+}
+.buttons {
+    text-align: center;
+    margin: 20px auto;
+    width: 100px;
+    height: 50px;
+    padding: 10px;;
+    font-size: 20px;;
+    border-radius: 4px;
+    background-color: #F8BC20;
+}
+.buttons:hover {
+    background-color: #E8AC10;
+    cursor: pointer;
+}
+
+.questions {
+    padding: 50px;
+}
+.hide {
+    display:none;
+}
+

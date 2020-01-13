@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Speed Calculation Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>SPEED CALCULATION TEST</h1>
+    </header>
+    <div id = "main-body">
+        <div class = "display-box hide" id = "result">
+            <ol id = "result-list">
+            </ol>
+            <div id = "result-summary">
+                Total Questions: <span& id = "total-questions"></span&>&nbsp &nbsp
+                Correct Answers: <span id = "total-correct"></span>&nbsp &nbsp
+                Incorrect Answers: <span id = total-incorrect></span>
+            </div>
+            <div class = "buttons" id = "restart-button">RESTART</div>
+        </div>
+        <div class = "display-box hide" id = "quiz-box">
+            <div id = "timer"><span id = "timer-content">0.00</span></div>
+            <div id = "question-number">1</div>
+            <div class = "questions">
+            <span id="first-number">1</span> <span id= "operator">+</span> <span id = second-number>2</span> = <input type="text" id="answer-input" autofocus>
+            </div>  
+        </div>
+        <div class = "display-box" id = "introduction-box">
+            <p>This is a very simple quiz where you calculation speed will be tested. You will get 20 single digit mathematical problems. Your time will be recorded, answer as quickly as you can.</p>
+            <p>Initially it was designed to help me to improve my calculation speed for CAT examination. Unfortunately currently we do not have much customization and most of this is hard-coded. But in future we may add some more features and option so stay tuned!</p>
+            <p>All the best!</p>
+            <div class = "buttons" id = "start-button">START</div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
