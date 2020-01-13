@@ -13,6 +13,14 @@ let firstNumber = 0;
 let secondNumber = 0;
 let operator = '+';
 let startTime;
+let additionLowerLimit = -1;
+let additionUpperLimit = -1;
+let subtractionLowerLimit = -1;
+let subtractionUpperLimit = -1;
+let multiplicationLowerLimit = -1;
+let multiplicationUpperLimit = -1;
+let squaresLowerLimit = -1;
+let squaresUpperLimit = -1;
 const indtroductionDiv = document.getElementById('introduction-box');
 const resultDiv = document.getElementById('result');
 const startButton = document.getElementById('start-button');
@@ -26,6 +34,22 @@ const operatorSpan = document.getElementById('operator');
 const answerInput = document.getElementById('answer-input');
 const questionNumberDiv = document.getElementById('question-number');
 const resultList = document.getElementById('result-list');
+const qustionCheckBox = document.getElementById('question-checkbox');
+const additionCheckBox = document.getElementById('addition-checkbox');
+const subtractionCheckBox = document.getElementById('subtraction-checkbox');
+const multiplicationCheckBox = document.getElementById('multiplication-checkbox');
+const squaresCheckBox = document.getElementById('squares-checkbox');
+const questionNumberInput = document.getElementById('question-number-input')
+const additionUpperLimitInput = document.getElementById('addition-upperlimit');
+const additionLowerLimitInput = document.getElementById('addition-lowerlimit');
+const subtractionUpperLimitInput = document.getElementById('subtraction-upperlimit');
+const subtractionLowerLimitInput = document.getElementById('subtraction-lowerlimit');
+const multiplicationUpperLimitInput = document.getElementById('multiplication-upperlimit');
+const multiplicationLowerLimitInput = document.getElementById('multiplication-lowerlimit');
+const squaresUpperLimitInput = document.getElementById('squares-upperlimit');
+const squaresLowerLimitInput = document.getElementById('squares-lowerlimit');
+let selectedOperator = [];
+
 
 function hideElement(elem) {
     elem.classList.add("hide");
@@ -49,8 +73,8 @@ function updateResultDiv() {
     document.getElementById('time-taken').innerHTML = (Math.floor(timeSinceStart/100))/10 + "s";
     document.getElementById('time-per-question').innerHTML = Math.floor(timeSinceStart/(10*(totalQuestions-notAttempted)))/100 + "s";
     document.getElementById('accuracy').innerHTML = (correctAnswers/totalQuestions * 100) + "%";
-
 }
+
 function endQuiz(){
     hideElement(quizBoxDiv)
     showElement(resultDiv);
@@ -65,29 +89,52 @@ function updateQuizDiv() {
     answerInput.value = "";
     answerInput.focus();
 }
+function selectOperator() {
+    let rand = Math.floor(Math.random()*(selectedOperator.length));
+    return selectedOperator[rand];
+}
 function nextQuestion() {
     questionNumber++;
     if (questionNumber > totalQuestions) {
         endQuiz();
         return;
     }
-    firstNumber = Math.floor(Math.random()*8 +2);
-    secondNumber = Math.floor(Math.random()*8 + 2);
-    operator =  Math.floor(Math.random()*2);
 
-    firstNumberList[questionNumber] = firstNumber;
-    secondNumberList[questionNumber] = secondNumber;
-
-    if(operator == 0){
-        operator = '+';
+    operator =  selectOperator();
+    console.log(operator)
+    if(operator == '+'){
+        firstNumber = Math.floor(Math.random()*(additionUpperLimit - additionLowerLimit + 1) + additionLowerLimit);
+        secondNumber = Math.floor(Math.random()*(additionUpperLimit - additionLowerLimit + 1) + additionLowerLimit);
         operatorList[questionNumber] = operator;
-        questionAnswers[questionNumber] = firstNumber + secondNumber; //Operator is +
+        questionAnswers[questionNumber] = firstNumber + secondNumber; 
     }
-    else if(operator == 1) {
-        operator = '*';
-        operatorList[questionNumber] = operator;
+    else if(operator == '*') {
+        firstNumber = Math.floor(Math.random()*(multiplicationUpperLimit - multiplicationLowerLimit + 1) + multiplicationLowerLimit);
+        secondNumber = Math.floor(Math.random()*(multiplicationUpperLimit - multiplicationLowerLimit + 1)  + multiplicationLowerLimit);
+        console.log(multiplicationUpperLimit);
         questionAnswers[questionNumber] = firstNumber * secondNumber; //Operator is *
     }
+    else if(operator == '-') {
+        firstNumber = Math.floor(Math.random()*(subtractionUpperLimit - subtractionLowerLimit + 1) + subtractionLowerLimit);
+        secondNumber = Math.floor(Math.random()*(subtractionUpperLimit - subtractionLowerLimit + 1) + subtractionLowerLimit);
+        if (firstNumber < secondNumber) {
+            let temp = secondNumber;
+            secondNumber = firstNumber;
+            firstNumber = temp;
+        }
+        questionAnswers[questionNumber] = firstNumber - secondNumber;
+    }
+    else if (operator == 'square') {
+        firstNumber = Math.floor(Math.random()*(squaresUpperLimit - squaresLowerLimit + 1) + squaresLowerLimit);
+        operator = '^';
+        secondNumber = 2;
+        questionAnswers[questionNumber] = firstNumber * firstNumber;
+
+    }
+    firstNumberList[questionNumber] = firstNumber;
+    secondNumberList[questionNumber] = secondNumber;
+    operatorList[questionNumber] = operator;
+
     updateQuizDiv();
     console.log(`Question: ${firstNumber} ${operator} ${secondNumber} = ${questionAnswers[questionNumber]}`);
 }
@@ -104,6 +151,32 @@ function startTimer(){
 }
 function startQuiz() {
     console.log("Quiz has started!");
+    selectedOperator = [];
+    totalQuestions = questionNumberInput.value;
+    if (subtractionCheckBox.classList.contains('checked')){
+        subtractionUpperLimit = +subtractionUpperLimitInput.value;
+        subtractionLowerLimit = +subtractionLowerLimitInput.value;
+        selectedOperator.push('-');
+        console.log(`${subtractionLowerLimit}, ${subtractionUpperLimit}`);
+    }
+    if(additionCheckBox.classList.contains('checked')) {
+        additionUpperLimit = +additionUpperLimitInput.value;
+        additionLowerLimit = +additionLowerLimitInput.value;
+        selectedOperator.push('+');
+        console.log(`${additionLowerLimit}, ${additionUpperLimit}`);
+    }
+    if(multiplicationCheckBox.classList.contains('checked')) {
+        multiplicationUpperLimit = +multiplicationUpperLimitInput.value;
+        multiplicationLowerLimit = +multiplicationLowerLimitInput.value;
+        selectedOperator.push('*');
+        console.log(`${multiplicationLowerLimit}, ${multiplicationUpperLimit}`);
+    }
+    if(squaresCheckBox.classList.contains('checked')) {
+        squaresUpperLimit = +squaresUpperLimitInput.value;
+        squaresLowerLimit = +squaresLowerLimitInput.value;
+        selectedOperator.push('square');
+        console.log(`${squaresLowerLimit}, ${squaresUpperLimit}`);
+    }
     questionNumber = 0;
     correctAnswers = 0;
     wrongAnswers = 0;
@@ -137,6 +210,9 @@ function checkAnswer() {
         console.log("Incorrect")
     }
 }
+function toggleCheckBox(div) {
+    div.classList.toggle("checked")
+}
 function main() {
     startButton.addEventListener('click', function() {
         startQuiz();
@@ -149,6 +225,18 @@ function main() {
     });
     restartButton.addEventListener('click', function() {
         startQuiz();
-    })
+    });
+    additionCheckBox.addEventListener('click', function(){
+        toggleCheckBox(additionCheckBox);
+    });
+    subtractionCheckBox.addEventListener('click', function(){
+        toggleCheckBox(subtractionCheckBox); 
+    });
+    multiplicationCheckBox.addEventListener('click', function(){
+        toggleCheckBox(multiplicationCheckBox);
+    });
+    squaresCheckBox.addEventListener('click', function(){
+        toggleCheckBox(squaresCheckBox);
+    });
 }
 main();
