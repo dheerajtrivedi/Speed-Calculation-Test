@@ -1,7 +1,7 @@
 let correctAnswers = 0;
 let wrongAnswers = 0;
 let notAttempted = 0;
-let totalQuestions = 2;
+let totalQuestions = 10;
 let questionNumber = 0;
 let firstNumberList = [];
 let secondNumberList = [];
@@ -33,6 +33,7 @@ function showElement(elem) {
     elem.classList.remove("hide");
 }
 function updateResultDiv() {
+    resultList.innerHTML = "";
     for(let q = 1; q <= totalQuestions; q++){
         if(questionResult[q] == 1)
             resultList.innerHTML += `<li class = 'correct-answer'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = ${userAnswers[q]} </li>`;
@@ -87,9 +88,13 @@ function nextQuestion() {
 }
 function startQuiz() {
     console.log("Quiz has started!");
+    correctAnswers = 0;
+    wrongAnswers = 0;
+    notAttempted = 0;
     questionNumber = 0;
     nextQuestion();
     hideElement(indtroductionDiv);
+    hideElement(resultDiv);
     showElement(quizBoxDiv);
     showElement(timerDiv);
     answerInput.focus();   
@@ -125,5 +130,8 @@ function main() {
             nextQuestion();
         }
     });
+    restartButton.addEventListener('click', function() {
+        startQuiz();
+    })
 }
 main();
