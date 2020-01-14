@@ -21,6 +21,7 @@ let multiplicationLowerLimit = -1;
 let multiplicationUpperLimit = -1;
 let squaresLowerLimit = -1;
 let squaresUpperLimit = -1;
+const mainHeading = document.querySelector('header > h1');
 const indtroductionDiv = document.getElementById('introduction-box');
 const resultDiv = document.getElementById('result');
 const startButton = document.getElementById('start-button');
@@ -75,6 +76,12 @@ function updateResultDiv() {
     document.getElementById('accuracy').innerHTML = (correctAnswers/totalQuestions * 100) + "%";
 }
 
+function gotoHome(){
+    endQuiz();
+    hideElement(resultDiv);
+    hideElement(quizBoxDiv);
+    showElement(indtroductionDiv);
+}
 function endQuiz(){
     hideElement(quizBoxDiv)
     showElement(resultDiv);
@@ -192,7 +199,10 @@ function isChecked(div){
 function showError(err) {
     document.getElementById('error-message').innerHTML += `<p> ${err} </p> <hr>`;
     showElement(document.getElementById('error-message-box'));
-    setTimeout(() => hideElement(document.getElementById('error-message-box')), 1000*5)
+    setTimeout(() => {
+        hideElement(document.getElementById('error-message-box'));
+        document.getElementById('error-message-box').innerHTML = "";
+        }, 1000*5);
 }
 
 function checkConstraints() {
@@ -282,5 +292,8 @@ function main() {
     squaresCheckBox.addEventListener('click', function(){
         toggleCheckBox(squaresCheckBox);
     });
+    mainHeading.addEventListener('click', function () {
+        gotoHome();
+    })
 }
 main();
