@@ -18,7 +18,10 @@
             <div id = "result-summary">
                 Total Questions: <span& id = "total-questions"></span&>&nbsp &nbsp
                 Correct Answers: <span id = "total-correct"></span>&nbsp &nbsp
-                Incorrect Answers: <span id = total-incorrect></span>
+                Incorrect Answers: <span id = total-incorrect></span> <br>
+                Time Taken: <span id = "time-taken"></span><br><br>
+                Time/Question: <span id = "time-per-question"></span>&nbsp &nbsp
+                Accuracy: <span id = "accuracy"></span>
             </div>
             <div class = "buttons" id = "restart-button">RESTART</div>
         </div>
@@ -31,9 +34,20 @@
         </div>
         <div class = "display-box" id = "introduction-box">
             <p>This is a very simple quiz where you calculation speed will be tested. You will get 20 single digit mathematical problems. Your time will be recorded, answer as quickly as you can.</p>
-            <p>Initially it was designed to help me to improve my calculation speed for CAT examination. Unfortunately currently we do not have much customization and most of this is hard-coded. But in future we may add some more features and option so stay tuned!</p>
+            <p>Initially it was designed to help me to improve my calculation speed for CAT examination. Stay tuned for more updates!</p>
             <p>All the best!</p>
+            <div id = "customization-bar">
+                <div class = "check-box checked" id = "question-checkbox">Number of Questions: <input type="text" id="question-number-input" value = 15 ></div><br><br>
+                <div class = "check-box checked" id = "addition-checkbox">Addition <input type="text" id = "addition-lowerlimit" onclick="event.stopPropagation()" value = 2> to <input type="text" id = "addition-upperlimit" onclick="event.stopPropagation()" value = 10></div>
+                <div class = "check-box" id = "subtraction-checkbox">Subraction <input type="text" id = "subtraction-lowerlimit"onclick="event.stopPropagation()"> to <input type="text" id = "subtraction-upperlimit" onclick="event.stopPropagation()"></div>
+                <div class = "check-box checked" id = "multiplication-checkbox">Multiplication <input type="text" id = "multiplication-lowerlimit" onclick="event.stopPropagation()" value = 2> to <input type="text" id = "multiplication-upperlimit" onclick="event.stopPropagation()" value = 10></div>
+                <div class = "check-box" id = "squares-checkbox">Square <input type="text" id = "squares-lowerlimit" onclick="event.stopPropagation()"> to <input type="text" id = "squares-upperlimit" onclick="event.stopPropagation()"></div>
+            </div>
             <div class = "buttons" id = "start-button">START</div>
+        </div>
+        <div id = "error-message-box" class = "hide">
+            <h2>ERROR!</h2>
+            <p id = "error-message"></p>
         </div>
     </div>
     <script src="app.js"></script>
