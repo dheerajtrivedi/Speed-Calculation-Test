@@ -65,7 +65,7 @@ function updateResultDiv() {
         else if (questionResult[q] == 0)
             resultList.innerHTML += `<li class = 'unanswered'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = _ </li>`;
         else 
-            resultList.innerHTML += `<li class = 'incorrect-answer'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = ${userAnswers[q]} </li>`;
+            resultList.innerHTML += `<li class = 'incorrect-answer'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = <span class = "strike-content">${userAnswers[q]}</span> <span class = "correct-answer">   ${questionAnswers[q]} </span> </li>`;
     }
     document.getElementById('total-questions').innerHTML = totalQuestions;
     document.getElementById('total-correct').innerHTML = correctAnswers;
