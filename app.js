@@ -21,6 +21,7 @@ let multiplicationLowerLimit = -1;
 let multiplicationUpperLimit = -1;
 let squaresLowerLimit = -1;
 let squaresUpperLimit = -1;
+const mainHeading = document.querySelector('header > h1');
 const indtroductionDiv = document.getElementById('introduction-box');
 const resultDiv = document.getElementById('result');
 const startButton = document.getElementById('start-button');
@@ -65,7 +66,7 @@ function updateResultDiv() {
         else if (questionResult[q] == 0)
             resultList.innerHTML += `<li class = 'unanswered'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = _ </li>`;
         else 
-            resultList.innerHTML += `<li class = 'incorrect-answer'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = ${userAnswers[q]} </li>`;
+            resultList.innerHTML += `<li class = 'incorrect-answer'>  ${firstNumberList[q]} ${operatorList[q]} ${secondNumberList[q]} = <span class = "strike-content">${userAnswers[q]}</span> <span class = "correct-answer">   ${questionAnswers[q]} </span> </li>`;
     }
     document.getElementById('total-questions').innerHTML = totalQuestions;
     document.getElementById('total-correct').innerHTML = correctAnswers;
@@ -75,6 +76,12 @@ function updateResultDiv() {
     document.getElementById('accuracy').innerHTML = (correctAnswers/totalQuestions * 100) + "%";
 }
 
+function gotoHome(){
+    endQuiz();
+    hideElement(resultDiv);
+    hideElement(quizBoxDiv);
+    showElement(indtroductionDiv);
+}
 function endQuiz(){
     hideElement(quizBoxDiv)
     showElement(resultDiv);
@@ -150,32 +157,6 @@ function startTimer(){
 }
 function startQuiz() {
     console.log("Quiz has started!");
-    selectedOperator = [];
-    totalQuestions = questionNumberInput.value;
-    if (subtractionCheckBox.classList.contains('checked')){
-        subtractionUpperLimit = +subtractionUpperLimitInput.value;
-        subtractionLowerLimit = +subtractionLowerLimitInput.value;
-        selectedOperator.push('-');
-        console.log(`${subtractionLowerLimit}, ${subtractionUpperLimit}`);
-    }
-    if(additionCheckBox.classList.contains('checked')) {
-        additionUpperLimit = +additionUpperLimitInput.value;
-        additionLowerLimit = +additionLowerLimitInput.value;
-        selectedOperator.push('+');
-        console.log(`${additionLowerLimit}, ${additionUpperLimit}`);
-    }
-    if(multiplicationCheckBox.classList.contains('checked')) {
-        multiplicationUpperLimit = +multiplicationUpperLimitInput.value;
-        multiplicationLowerLimit = +multiplicationLowerLimitInput.value;
-        selectedOperator.push('*');
-        console.log(`${multiplicationLowerLimit}, ${multiplicationUpperLimit}`);
-    }
-    if(squaresCheckBox.classList.contains('checked')) {
-        squaresUpperLimit = +squaresUpperLimitInput.value;
-        squaresLowerLimit = +squaresLowerLimitInput.value;
-        selectedOperator.push('square');
-        console.log(`${squaresLowerLimit}, ${squaresUpperLimit}`);
-    }
     questionNumber = 0;
     correctAnswers = 0;
     wrongAnswers = 0;
@@ -212,19 +193,82 @@ function checkAnswer() {
 function toggleCheckBox(div) {
     div.classList.toggle("checked")
 }
+function isChecked(div){
+    return div.classList.contains('checked');
+}
+function showError(err) {
+    document.getElementById('error-message').innerHTML += `<p> ${err} </p> <hr>`;
+    showElement(document.getElementById('error-message-box'));
+    setTimeout(() => {
+        hideElement(document.getElementById('error-message-box'));
+        document.getElementById('error-message-box').innerHTML = "";
+        }, 1000*5);
+}
+
 function checkConstraints() {
-    if(additionCheckBox.classList.contains('checked') || subtractionCheckBox.classList.contains('checked')
-        || multiplicationCheckBox.classList.contains('checked') || squaresCheckBox.classList.contains('checked')) {
-            return true;
+    let allConstraintsPassed = true;
+    if( !(isChecked(additionCheckBox)|| isChecked(subtractionCheckBox)
+        || isChecked(multiplicationCheckBox) || isChecked(squaresCheckBox) ) ) {
+            showError("Please select at least one question type.");          
+            allConstraintsPassed = false;
         }
-    else {
-        document.getElementById('error-message').innerHTML = 'Please select at least one option.';
-        showElement(document.getElementById('error-message-box'));
-        setTimeout(() => hideElement(document.getElementById('error-message-box')), 1000*5)
+    if(isChecked(additionCheckBox)) {
+        if(additionLowerLimit == 0 || additionUpperLimit == 0 || additionUpperLimit < additionLowerLimit) {
+            showError('Please set  appropriate lowerLimit/UpperLimit for addition.');
+            allConstraintsPassed = false;
+        }
+    }
+    if(isChecked(subtractionCheckBox)) {
+        if(subtractionLowerLimit == 0 || subtractionUpperLimit == 0 || subtractionUpperLimit < subtractionLowerLimit) {
+            showError('Please set appropriate lowerLimit/UpperLimit for subtraction.');
+            allConstraintsPassed = false;
+        }
+    }
+    if(isChecked(multiplicationCheckBox)) {
+        if(multiplicationLowerLimit == 0 || multiplicationUpperLimit == 0 || multiplicationUpperLimit < multiplicationLowerLimit) {
+            showError('Please set appropriate lowerLimit/UpperLimit for multiplication.');
+            allConstraintsPassed = false;
+        }
+    }
+    if(isChecked(squaresCheckBox)) {
+        if(squaresLowerLimit == 0 || squaresUpperLimit == 0 || squaresUpperLimit < squaresLowerLimit) {
+            showError('Please set appropriate lowerLimit/UpperLimit for squares.');
+            allConstraintsPassed = false;
+        }
+    }
+    return allConstraintsPassed;
+}
+function getLimits(){
+    selectedOperator = [];
+    totalQuestions = questionNumberInput.value;
+    if (isChecked(subtractionCheckBox)){
+        subtractionUpperLimit = +subtractionUpperLimitInput.value;
+        subtractionLowerLimit = +subtractionLowerLimitInput.value;
+        selectedOperator.push('-');
+        console.log(`${subtractionLowerLimit}, ${subtractionUpperLimit}`);
+    }
+    if(isChecked(additionCheckBox)) {
+        additionUpperLimit = +additionUpperLimitInput.value;
+        additionLowerLimit = +additionLowerLimitInput.value;
+        selectedOperator.push('+');
+        console.log(`${additionLowerLimit}, ${additionUpperLimit}`);
+    }
+    if(isChecked(multiplicationCheckBox)) {
+        multiplicationUpperLimit = +multiplicationUpperLimitInput.value;
+        multiplicationLowerLimit = +multiplicationLowerLimitInput.value;
+        selectedOperator.push('*');
+        console.log(`${multiplicationLowerLimit}, ${multiplicationUpperLimit}`);
+    }
+    if(isChecked(squaresCheckBox)) {
+        squaresUpperLimit = +squaresUpperLimitInput.value;
+        squaresLowerLimit = +squaresLowerLimitInput.value;
+        selectedOperator.push('square');
+        console.log(`${squaresLowerLimit}, ${squaresUpperLimit}`);
     }
 }
 function main() {
     startButton.addEventListener('click', function() {
+        getLimits();
         if(checkConstraints()) startQuiz();
     })
     answerInput.addEventListener('keydown', function(event) {
@@ -248,5 +292,8 @@ function main() {
     squaresCheckBox.addEventListener('click', function(){
         toggleCheckBox(squaresCheckBox);
     });
+    mainHeading.addEventListener('click', function () {
+        gotoHome();
+    })
 }
 main();

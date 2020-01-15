@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #92C46D;
+    background-color: #DCECA9;
     color: #1D344E;
 }
 #main-body {
@@ -19,6 +19,15 @@ header {
 }
 header > h1 {
     font-size: 46px;
+    width: fit-content;
+    border-radius: 5px;
+    margin: 10px auto;
+    transition: 1s ease;
+    padding: 10px;
+}
+header > h1:hover {
+    cursor: pointer;
+    background-color: #CCBC99;
 }
 #customization-bar {
     text-align: center;
@@ -33,6 +42,7 @@ header > h1 {
     margin: 5px;
     vertical-align: top;
     font-size: 20x;
+    transition: 0.3s ease;
 }
 .check-box:hover{
     cursor: pointer;
@@ -104,6 +114,9 @@ header > h1 {
 .incorrect-answer {
     color: #fd3b3b;
 }
+.strike-content {
+    text-decoration: line-through #67ee67;
+}
 #question-number {
     margin:30px auto;
     text-align:  center;
@@ -151,8 +164,12 @@ header > h1 {
     right: 25px;
     bottom: 25px;
     width:200px;
-    height: 120px;
+    height: fit-content;
     border-radius: 10%;
+    padding: 10px;
+}
+#error-message-box p {
+    text-align: left;
 }
 .buttons {
     text-align: center;
@@ -163,6 +180,7 @@ header > h1 {
     font-size: 20px;;
     border-radius: 4px;
     background-color: #F8BC20;
+    transition: 0.3s ease;
 }
 .buttons:hover {
     background-color: #E8AC10;
