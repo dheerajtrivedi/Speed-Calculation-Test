@@ -21,6 +21,7 @@ let multiplicationLowerLimit = -1;
 let multiplicationUpperLimit = -1;
 let squaresLowerLimit = -1;
 let squaresUpperLimit = -1;
+let squaresStack = [];
 const indtroductionDiv = document.getElementById('introduction-box');
 const resultDiv = document.getElementById('result');
 const startButton = document.getElementById('start-button');
@@ -50,7 +51,9 @@ const squaresUpperLimitInput = document.getElementById('squares-upperlimit');
 const squaresLowerLimitInput = document.getElementById('squares-lowerlimit');
 let selectedOperator = [];
 
-
+function clearNumberStack() {
+    squaresStack = [];
+}
 function hideElement(elem) {
     elem.classList.add("hide");
 }
@@ -80,6 +83,26 @@ function endQuiz(){
     showElement(resultDiv);
     stopTimer();
     updateResultDiv();
+}
+getNumberStack(stack, lower, upper) {
+    for(let i = lower; i <= upper; i++) stack.push(i);
+    //Randomize Stack
+    len = stack.length();
+    let j = 0;
+    while(j < len) {
+        rand = Math.floor(Math.random()*len);
+        //Swapping
+        let temp = stack[j];
+        stack[j] = stack[rand];
+        stack[rand] = temp;
+        j++;
+    }
+
+    while(len < questionNumber) {
+        stack.unshift(Math.floor(Math.random()*(upper-lower) + lower));
+        len++;
+    }
+    console.log(stack);
 }
 function updateQuizDiv() {
     questionNumberDiv.innerHTML = questionNumber;
@@ -125,7 +148,7 @@ function nextQuestion() {
         questionAnswers[questionNumber] = firstNumber - secondNumber;
     }
     else if (operator == 'square') {
-        firstNumber = Math.floor(Math.random()*(squaresUpperLimit - squaresLowerLimit + 1) + squaresLowerLimit);
+        firstNumber = squaresStack.pop();
         operator = '^';
         secondNumber = 2;
         questionAnswers[questionNumber] = firstNumber * firstNumber;
@@ -150,6 +173,7 @@ function startTimer(){
 }
 function startQuiz() {
     console.log("Quiz has started!");
+    clearNumberStack();
     selectedOperator = [];
     totalQuestions = questionNumberInput.value;
     if (subtractionCheckBox.classList.contains('checked')){
@@ -174,6 +198,7 @@ function startQuiz() {
         squaresUpperLimit = +squaresUpperLimitInput.value;
         squaresLowerLimit = +squaresLowerLimitInput.value;
         selectedOperator.push('square');
+        getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
         console.log(`${squaresLowerLimit}, ${squaresUpperLimit}`);
     }
     questionNumber = 0;
