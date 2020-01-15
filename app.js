@@ -21,6 +21,7 @@ let multiplicationLowerLimit = -1;
 let multiplicationUpperLimit = -1;
 let squaresLowerLimit = -1;
 let squaresUpperLimit = -1;
+let squaresStack = [];
 const mainHeading = document.querySelector('header > h1');
 const indtroductionDiv = document.getElementById('introduction-box');
 const resultDiv = document.getElementById('result');
@@ -51,7 +52,42 @@ const squaresUpperLimitInput = document.getElementById('squares-upperlimit');
 const squaresLowerLimitInput = document.getElementById('squares-lowerlimit');
 let selectedOperator = [];
 
-
+function getRandomNumber(lower, upper) {
+    return (Math.floor(Math.random() * (upper-lower) + lower));
+}
+function clearNumberStack() {
+    squaresStack = [];
+}
+function shuffleArray(arr){
+    let len = arr.length;
+    let j = 0;
+    while(j < len){
+        let rand = getRandomNumber(0,len);
+        //Swapping
+        let temp = arr[j];
+        arr[j] = arr[rand];
+        arr[rand] = temp;
+        j++;
+    }
+}
+function getNumberStack(stack, lower, upper) {
+    for(let i = lower; i <= upper; i++) stack.push(i);
+    console.log(stack);
+    let len = stack.length;
+    shuffleArray(stack);
+    let uniqueStack = [...stack];
+    let temp = [];
+    while(len < totalQuestions) {
+        if(temp.length == 0) {
+            temp = [...uniqueStack];
+            shuffleArray(temp);
+            console.log(temp);
+        }
+        stack.unshift(temp.pop());
+        len++;
+    }
+    console.log(stack);
+}
 function hideElement(elem) {
     elem.classList.add("hide");
 }
@@ -132,7 +168,7 @@ function nextQuestion() {
         questionAnswers[questionNumber] = firstNumber - secondNumber;
     }
     else if (operator == 'square') {
-        firstNumber = Math.floor(Math.random()*(squaresUpperLimit - squaresLowerLimit + 1) + squaresLowerLimit);
+        firstNumber = squaresStack.pop();
         operator = '^';
         secondNumber = 2;
         questionAnswers[questionNumber] = firstNumber * firstNumber;
@@ -239,6 +275,7 @@ function checkConstraints() {
     return allConstraintsPassed;
 }
 function getLimits(){
+    clearNumberStack();
     selectedOperator = [];
     totalQuestions = questionNumberInput.value;
     if (isChecked(subtractionCheckBox)){
@@ -262,6 +299,7 @@ function getLimits(){
     if(isChecked(squaresCheckBox)) {
         squaresUpperLimit = +squaresUpperLimitInput.value;
         squaresLowerLimit = +squaresLowerLimitInput.value;
+        getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
         selectedOperator.push('square');
         console.log(`${squaresLowerLimit}, ${squaresUpperLimit}`);
     }
@@ -278,6 +316,7 @@ function main() {
         }
     });
     restartButton.addEventListener('click', function() {
+        getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
         startQuiz();
     });
     additionCheckBox.addEventListener('click', function(){
