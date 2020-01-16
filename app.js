@@ -121,6 +121,7 @@ function gotoHome(){
 function endQuiz(){
     hideElement(quizBoxDiv)
     showElement(resultDiv);
+    if(questionNumber < totalQuestions) totalQuestions = questionNumber - 1;
     stopTimer();
     updateResultDiv();
 }
@@ -318,6 +319,13 @@ function main() {
     restartButton.addEventListener('click', function() {
         getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
         startQuiz();
+    });
+    document.querySelector(".restart").addEventListener('click', function() {
+        getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
+        startQuiz();
+    });
+    document.querySelector(".stop").addEventListener('click', function() {
+        endQuiz();
     });
     additionCheckBox.addEventListener('click', function(){
         toggleCheckBox(additionCheckBox);

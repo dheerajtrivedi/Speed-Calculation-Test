@@ -83,7 +83,8 @@ header > h1:hover {
 }
 .display-box {
     background-color: #1D344E;
-    width: 900px;
+    width: 90%;
+    max-width: 900px;
     margin: 50px auto;
     border-radius: 10px;
     padding: 50px;
@@ -192,5 +193,23 @@ header > h1:hover {
 }
 .hide {
     display:none;
+}
+.stop, .pause, .restart {
+    display: inline-block;
+    background-color: #F8BC20;
+    transition: 0.3s ease;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    font-size: 1px;
+    border-radius: 50%;
+}
+.stop:hover, .pause:hover, .restart:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+.stop img, .pause img, .restart img{
+    max-width: 100%;
+    max-height: 100%;
 }
 
