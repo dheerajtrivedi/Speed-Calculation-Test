@@ -22,6 +22,12 @@ let multiplicationUpperLimit = -1;
 let squaresLowerLimit = -1;
 let squaresUpperLimit = -1;
 let squaresStack = [];
+let additionFirstNumberStack = [];
+let additionSecondNumberStack = [];
+let subtractionFirstNumberStack = [];
+let subtractionSecondNumberStack = [];
+let multiplicationFirstNumberStack = [];
+let multiplicationSecondNumberStack = [];
 const mainHeading = document.querySelector('header > h1');
 const indtroductionDiv = document.getElementById('introduction-box');
 const resultDiv = document.getElementById('result');
@@ -57,6 +63,12 @@ function getRandomNumber(lower, upper) {
 }
 function clearNumberStack() {
     squaresStack = [];
+    additionFirstNumberStack = [];
+    additionSecondNumberStack = [];
+    subtractionFirstNumberStack = [];
+    subtractionSecondNumberStack = [];
+    multiplicationFirstNumberStack = [];
+    multiplicationSecondNumberStack = [];
 }
 function shuffleArray(arr){
     let len = arr.length;
@@ -147,20 +159,20 @@ function nextQuestion() {
     operator =  selectOperator();
     console.log(operator)
     if(operator == '+'){
-        firstNumber = Math.floor(Math.random()*(additionUpperLimit - additionLowerLimit + 1) + additionLowerLimit);
-        secondNumber = Math.floor(Math.random()*(additionUpperLimit - additionLowerLimit + 1) + additionLowerLimit);
+        firstNumber = additionFirstNumberStack.pop();
+        secondNumber = additionSecondNumberStack.pop();
         operatorList[questionNumber] = operator;
         questionAnswers[questionNumber] = firstNumber + secondNumber; 
     }
     else if(operator == '*') {
-        firstNumber = Math.floor(Math.random()*(multiplicationUpperLimit - multiplicationLowerLimit + 1) + multiplicationLowerLimit);
-        secondNumber = Math.floor(Math.random()*(multiplicationUpperLimit - multiplicationLowerLimit + 1)  + multiplicationLowerLimit);
+        firstNumber = multiplicationFirstNumberStack.pop();
+        secondNumber = multiplicationSecondNumberStack.pop();
         console.log(multiplicationUpperLimit);
         questionAnswers[questionNumber] = firstNumber * secondNumber; //Operator is *
     }
     else if(operator == '-') {
-        firstNumber = Math.floor(Math.random()*(subtractionUpperLimit - subtractionLowerLimit + 1) + subtractionLowerLimit);
-        secondNumber = Math.floor(Math.random()*(subtractionUpperLimit - subtractionLowerLimit + 1) + subtractionLowerLimit);
+        firstNumber = subtractionFirstNumberStack.pop();
+        secondNumber = subtractionSecondNumberStack.pop();
         if (firstNumber < secondNumber) {
             let temp = secondNumber;
             secondNumber = firstNumber;
@@ -275,6 +287,25 @@ function checkConstraints() {
     }
     return allConstraintsPassed;
 }
+function initializeNumberStacks(){
+    clearNumberStack();
+    if (isChecked(subtractionCheckBox)){
+        getNumberStack(subtractionFirstNumberStack, subtractionLowerLimit, subtractionUpperLimit);
+        getNumberStack(subtractionSecondNumberStack, subtractionLowerLimit, subtractionUpperLimit);
+    }
+    if(isChecked(additionCheckBox)) {
+        getNumberStack(additionFirstNumberStack, additionLowerLimit, additionUpperLimit);
+        getNumberStack(additionSecondNumberStack, additionLowerLimit, additionUpperLimit);
+    }
+    if(isChecked(multiplicationCheckBox)) {
+        getNumberStack(multiplicationFirstNumberStack, multiplicationLowerLimit, multiplicationUpperLimit);
+        getNumberStack(multiplicationSecondNumberStack, multiplicationLowerLimit, multiplicationUpperLimit);
+    }
+    if(isChecked(squaresCheckBox)) {
+        getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
+    }
+}
+
 function getLimits(){
     clearNumberStack();
     selectedOperator = [];
@@ -282,18 +313,24 @@ function getLimits(){
     if (isChecked(subtractionCheckBox)){
         subtractionUpperLimit = +subtractionUpperLimitInput.value;
         subtractionLowerLimit = +subtractionLowerLimitInput.value;
+        getNumberStack(subtractionFirstNumberStack, subtractionLowerLimit, subtractionUpperLimit);
+        getNumberStack(subtractionSecondNumberStack, subtractionLowerLimit, subtractionUpperLimit);
         selectedOperator.push('-');
         console.log(`${subtractionLowerLimit}, ${subtractionUpperLimit}`);
     }
     if(isChecked(additionCheckBox)) {
         additionUpperLimit = +additionUpperLimitInput.value;
         additionLowerLimit = +additionLowerLimitInput.value;
+        getNumberStack(additionFirstNumberStack, additionLowerLimit, additionUpperLimit);
+        getNumberStack(additionSecondNumberStack, additionLowerLimit, additionUpperLimit);
         selectedOperator.push('+');
         console.log(`${additionLowerLimit}, ${additionUpperLimit}`);
     }
     if(isChecked(multiplicationCheckBox)) {
         multiplicationUpperLimit = +multiplicationUpperLimitInput.value;
         multiplicationLowerLimit = +multiplicationLowerLimitInput.value;
+        getNumberStack(multiplicationFirstNumberStack, multiplicationLowerLimit, multiplicationUpperLimit);
+        getNumberStack(multiplicationSecondNumberStack, multiplicationLowerLimit, multiplicationUpperLimit);
         selectedOperator.push('*');
         console.log(`${multiplicationLowerLimit}, ${multiplicationUpperLimit}`);
     }
@@ -317,11 +354,11 @@ function main() {
         }
     });
     restartButton.addEventListener('click', function() {
-        getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
+        initializeNumberStacks();
         startQuiz();
     });
     document.querySelector(".restart").addEventListener('click', function() {
-        getNumberStack(squaresStack, squaresLowerLimit, squaresUpperLimit);
+        initializeNumberStacks();
         startQuiz();
     });
     document.querySelector(".stop").addEventListener('click', function() {
